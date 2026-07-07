@@ -362,7 +362,7 @@ class AzurePlugin implements PluginInterface, EventSubscriberInterface, Capable
             $lockData['stability-flags'],
             $lockData['prefer-stable'],
             $lockData['prefer-lowest'],
-            $lockData['platform-overrides']
+            $lockData['platform-overrides'] ?? []
         );
     }
 }
