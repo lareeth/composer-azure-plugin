@@ -107,13 +107,23 @@ class AzurePlugin implements PluginInterface, EventSubscriberInterface, Capable
             return;
         }
 
-        $sedCommand = 'sed -i -e "s|' . $search . '|' . $replaceWith . '|g" composer.lock';
-        // on macos sed needs an empty string for the i parameter
-        if (strtolower(PHP_OS) === 'darwin') {
-            $sedCommand = 'sed -i "" -e "s|' . $search . '|' . $replaceWith . '|g" composer.lock';
+        $lockContent = file_get_contents('composer.lock');
+        if ($lockContent === false) {
+            return;
         }
 
-        $this->commandExecutor->executeShellCmd($sedCommand);
+        $normalizedSearch = str_replace('\\', '/', $search);
+        $normalizedReplace = str_replace('\\', '/', $replaceWith);
+
+        $searchVariants = array_unique([$search, $normalizedSearch]);
+
+        $newComposer = str_replace(
+            $searchVariants,
+            array_fill(0, count($searchVariants), $normalizedReplace),
+            $lockContent
+        );
+
+        file_put_contents('composer.lock', $newComposer);
 
         $this->io->write('<info>Modified composer.lock path</info>');
     }
