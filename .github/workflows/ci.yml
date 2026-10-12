@@ -48,8 +48,13 @@ jobs:
       - name: Run test suite
         run: vendor/bin/phpunit
 
-      - name: Show reports folder
+      - name: Show reports folder (Linux)
+        if: runner.os == 'Linux'
         run: ls -lah ./tests/reports/
+
+      - name: Show reports folder (Windows)
+        if: runner.os == 'Windows'
+        run: dir ./tests/reports/
 
       - uses: codecov/codecov-action@v7
         with:
