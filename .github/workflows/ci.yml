@@ -39,7 +39,7 @@ jobs:
         with:
           php-version: '8.2'
           tools: composer:v${{ matrix.composer }}
-          coverage: xdebug2
+          coverage: xdebug
 
       - name: Install dependencies
         if: steps.composer-cache.outputs.cache-hit != 'true'
