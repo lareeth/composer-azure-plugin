@@ -17,14 +17,14 @@ jobs:
         composer: [2, 3]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v7
 
       - name: Validate composer.json and composer.lock
         run: composer validate
 
       - name: Cache Composer packages
         id: composer-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v6
         with:
           path: vendor
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
@@ -48,7 +48,7 @@ jobs:
       - name: Show reports folder
         run: ls -lah ./tests/reports/
 
-      - uses: codecov/codecov-action@v1
+      - uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
           files: ./tests/reports/coverage-clover.xml
