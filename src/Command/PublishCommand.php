@@ -91,7 +91,7 @@ class PublishCommand extends BaseCommand
         $command .= ' --name ' . str_replace('/', '.', $this->getComposer()->getPackage()->getName());
         $command .= ' --version ' . $this->getComposer()->getPackage()->getPrettyVersion();
         $command .= ' --description "' . $this->getComposer()->getPackage()->getDescription() . '"';
-        $command .= ' --path ' . $this->tempDir;
+        $command .= ' --path ' . str_replace('\\', '/', $this->tempDir);
 
         $this->executeShellCmd($command);
     }
